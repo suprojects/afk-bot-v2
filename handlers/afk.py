@@ -15,6 +15,6 @@ async def afk(client, message):
 {mention} is now AFK
 Reason: {reason}
 """.format(
-    mention=f'[{mentioned.first_name}](tg://user?id={mentioned.id})',
-    reason='`' + status['reason'] + '`' if status['reason'] else "Not specified",
-), parse_mode = 'markdowm')
+    mention=f'[{message.from_user.first_name}](tg://user?id={message.from_user.id})',
+    reason='`' + reason + '`' if reason else "Not specified",
+), parse_mode = 'markdown')

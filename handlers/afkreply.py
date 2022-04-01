@@ -1,9 +1,12 @@
 from database import tgusers
 from pyrogram import Client, filters
 from utils import timehelper
+from handlers import noafk
 
 @Client.on_message(filters.reply & filters.group & filters.text)
 async def afk_replier(client, message):
+    
+    await noafk.noafk(client, message)
     
     mentioned = message.reply_to_message.from_user
     status = tgusers.if_afk(mentioned.id)
