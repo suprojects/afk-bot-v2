@@ -1,7 +1,7 @@
 from datetime import datetime
 
 def getDuration(then):
-    since = datetime.now() - then
+    since = datetime.utcnow() - then
     elapsedTime = int(since.total_seconds())
     
     time = dict()

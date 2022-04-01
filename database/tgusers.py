@@ -13,7 +13,7 @@ def online_user(from_user):
                     "username": from_user.username,
                     "firstname": from_user.first_name,
                     "lastname": from_user.last_name,
-                    "seen": datetime.now(),
+                    "seen": datetime.utcnow(),
                     "afk_status": False,
                 }
             },
