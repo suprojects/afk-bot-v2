@@ -5,12 +5,19 @@ from database import tgusers
 async def afk(client, message):
     
     reason = None
+    afk_media = None
     
-    if message.command[1:]:
-        reason = str(" ".join(message.command[1:]))
+    if message.command[1:]: reason = str(" ".join(message.command[1:]))
     
-    tgusers.afked(message.from_user, reason)
-    
+    if message.photo: afk_media = {'id': message.photo.file_id, 'type': 'photo'}
+    if message.video:
+        if message.video.duration <= 30: afk_media = {'id': message.video.file_id, 'type': 'video'}
+        else: 
+            await message.reply('Duration of the video must be lesser than 30 seconds')
+            return
+            
+    tgusers.afked(message.from_user, reason, afk_media)
+
     await message.reply("""
 {mention} is now AFK
 Reason: {reason}

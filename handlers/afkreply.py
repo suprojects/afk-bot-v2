@@ -12,7 +12,8 @@ async def afk_replier(client, message):
     status = tgusers.if_afk(mentioned.id)
     
     if status['afk_status']:
-        await message.reply("""
+        
+        reply_message = """
 {mention} is AFK
 AFK since: {elapsed}
 Reason: {reason}
@@ -20,7 +21,11 @@ Reason: {reason}
     mention=f'[{mentioned.first_name}](tg://user?id={mentioned.id})',
     elapsed=timehelper.readableTime(timehelper.getDuration(status['seen'])),
     reason='`' + status['reason'] + '`' if status['reason'] else "Not specified",
-), parse_mode = 'markdown')
-    
- #   await message.reply(status)
-#    await message.reply(message)
+)
+
+        if status.get('afk_media', False): 
+            if status['afk_media']['type'] == 'video': await message.reply_video(video = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
+            elif status['afk_media']['type'] == 'photo': await message.reply_photo(photo = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
+            else: await message.reply(reply_message, parse_mode = 'markdown')
+            
+        else: await message.reply(reply_message, parse_mode = 'markdown')

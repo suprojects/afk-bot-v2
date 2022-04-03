@@ -4,7 +4,7 @@ from utils import timehelper
 
 @Client.on_message(filters.group & ~filters.regex('#afk'))
 async def noafk(client, message):
-    
+
     param = tgusers.online_user(message.from_user)
 
     if param['afk_status']:
