@@ -15,6 +15,7 @@ def online_user(from_user):
                     "lastname": from_user.last_name,
                     "seen": datetime.utcnow(),
                     "afk_status": False,
+                    "afk_media": None,
                 }
             },
             upsert=True,
@@ -23,13 +24,14 @@ def online_user(from_user):
     
     return param
 
-def afked(from_user, reason = None):
+def afked(from_user, reason = None, media = None):
     tgusers.update_one(
         {"id": from_user.id},
         {
             "$set": {
                 "afk_status": True,
                 "reason": reason,
+                "afk_media": media,
             }
         },
         upsert=True,
