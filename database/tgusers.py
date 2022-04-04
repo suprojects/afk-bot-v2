@@ -1,7 +1,7 @@
 from pymongo import ReturnDocument
 from datetime import datetime
-
 from database import db
+import re
 
 tgusers = db["tgusers"]
 
@@ -11,8 +11,8 @@ def online_user(from_user):
             {
                 "$set": {
                     "username": from_user.username,
-                    "firstname": from_user.first_name,
-                    "lastname": from_user.last_name,
+                    "first_name": from_user.first_name,
+                    "last_name": from_user.last_name,
                     "seen": datetime.utcnow(),
                     "afk_status": False,
                     "afk_media": None,
@@ -32,6 +32,7 @@ def afked(from_user, reason = None, media = None):
                 "afk_status": True,
                 "reason": reason,
                 "afk_media": media,
+                "seen": datetime.utcnow(),
             }
         },
         upsert=True,
@@ -50,6 +51,12 @@ def new_botuser(userid):
 
 def if_afk(userid):
     return tgusers.find_one({'id': userid})
+
+def find_by_username(username):
+    return tgusers.find_one({"username": re.compile(username, re.IGNORECASE)})
+
+def find_by_id(userid):
+    return tgusers.find_one({"id": userid})
 
 def bot_users():
     return list(tgusers.find({}, {'id': 1, "username": 1, "firstname": 1, "lastname": 1}))
