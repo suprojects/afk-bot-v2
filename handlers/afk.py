@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from database import tgusers
 
-@Client.on_message(filters.command('afk') & ~filters.regex('#afk'))
+@Client.on_message(filters.command('afk'))
 async def afk(client, message):
     
     reason = None
