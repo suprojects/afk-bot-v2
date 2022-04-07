@@ -38,11 +38,14 @@ def afked(from_user, reason = None, media = None):
         upsert=True,
     )
 
-def new_botuser(userid):
+def new_botuser(from_user):
     tgusers.update_one(
         {"id": from_user.id},
         {
             "$set": {
+                "username": from_user.username,
+                "first_name": from_user.first_name,
+                "last_name": from_user.last_name,
                 "botuser": True,
             }
         },

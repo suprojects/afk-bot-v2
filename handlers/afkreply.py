@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from utils import timehelper
 from handlers import noafk
 
-@Client.on_message(filters.reply & filters.group & filters.text)
+@Client.on_message(filters.reply & filters.group & ~filters.regex('^/'))
 async def afk_replier(client, message):
     
     await noafk.noafk(client, message)
