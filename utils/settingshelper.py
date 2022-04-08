@@ -1,6 +1,6 @@
 from pyrogram.types import InlineKeyboardButton
 
-def pvt_settings_buttons(param):
+def btn_maker(param):
     
     buttons = []
     
@@ -14,7 +14,7 @@ def pvt_settings_buttons(param):
         
     return buttons
 
-def btn_maker(settings):
+def pvt_settings_btns(settings):
     btn = [
         [
             {'text': 'Time Hider', 'callback': 'privacy_time_help'},
