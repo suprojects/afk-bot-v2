@@ -17,19 +17,19 @@ async def seenViewer(client, m):
             
             if mentioned.get('seen', False): 
                 
-                if mentioned.get('afk_status', False):
+                if mentioned.get('afk_status', False) and not mentioned.get('privacy_seen', False):
                     
                     reply_message = """
-                        {mention} is AFK
-                        AFK since: {elapsed}
-                        Reason: {reason}
+{mention} is AFK{afk_since}
+Reason: {reason}
                         """.format(
                             mention=f"[{mentioned['first_name']}](tg://user?id={mentioned['id']})",
-                            elapsed=timehelper.readableTime(timehelper.getDuration(mentioned['seen'])),
+                            afk_since=f"\nAFK since: {timehelper.readableTime(timehelper.getDuration(mentioned['seen']))}" if mentioned.get('privacy_time', False) else "",
                             reason='`' + mentioned['reason'] + '`' if mentioned['reason'] else "Not specified",
                         )
 
-                    if mentioned.get('afk_media', False): 
+                    if mentioned.get('afk_media', False):
+                        
                         if mentioned['afk_media']['type'] == 'video': await m.reply_video(video = mentioned['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
                         
                         elif mentioned['afk_media']['type'] == 'photo': await m.reply_photo(photo = mentioned['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
@@ -37,12 +37,12 @@ async def seenViewer(client, m):
                         else: await m.reply(reply_message, parse_mode = 'markdown')
                     
                     else: await m.reply(reply_message, parse_mode = 'markdown')
-            
+
+
                 elif not mentioned.get('privacy_seen', False):
                     
-                    await m.reply("""
-                        Last seen {mention} before {elapsed}      
-                        """.format(
+                    await m.reply("Last seen {mention} before {elapsed}"
+                            .format(
                                 mention=f"[{mentioned['first_name']}](tg://user?id={mentioned['id']})",
                                 elapsed=timehelper.readableTime(timehelper.getDuration(mentioned['seen'])),
                             )
