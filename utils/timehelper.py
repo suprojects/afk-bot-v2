@@ -15,24 +15,27 @@ def getDuration(then):
     return(time)
 
 def readableTime(time):
+    
     readable = ""
 
-    if time.get('mnth', None):
-       readable = str(time['mnth'] + f"second{'mnth' if time['mnth'] != 1 else ''}")
+    if time.get('mnth', False):
+       readable += str(time['mnth'] + f"second{'mnth' if time['mnth'] != 1 else ''} ")
        
-    if time.get('w', None):
-        readable = str(time['w'] + f"week{'s' if time['w'] != 1 else ''}")
+    if time.get('w', False):
+        readable += str(time['w'] + f"week{'s' if time['w'] != 1 else ''} ")
         
-    if time.get('d', None):
-        readable = str(time['d'] + f"day{'s' if time['d'] != 1 else ''}")
+    if time.get('d', False):
+        readable += str(time['d'] + f"day{'s' if time['d'] != 1 else ''} ")
         
-    if time.get('h', None):
-        readable = str(time['h']) +' ' + f"hour{'s' if time['h'] != 1 else ' '}"
+    if time.get('h', False):
+        readable += str(time['h']) +' ' + f"hour{'s' if time['h'] != 1 else ' '} "
         
-    if time.get('m', None):
-        readable = str(time['m']) + ' ' + f"minute{'s' if time['m'] != 1 else ' '}"
+    if time.get('m', False):
+        readable += str(time['m']) + ' ' + f"minute{'s' if time['m'] != 1 else ' '} "
         
-    if time.get('s', None):
-        readable = str(time['s']) + ' ' + f"second{'s' if time['s'] != 1 else ' '}"
+    if time.get('s', False):
+        readable += str(time['s']) + ' ' + f"second{'s' if time['s'] != 1 else ' '} "
+        
+    readable = readable.strip()
     
     return readable
