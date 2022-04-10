@@ -52,9 +52,6 @@ def new_botuser(from_user):
         upsert=True,
     )
 
-def if_afk(userid):
-    return tgusers.find_one({'id': userid})
-
 def find_by_username(username):
     return tgusers.find_one({"username": re.compile(username, re.IGNORECASE)})
 
