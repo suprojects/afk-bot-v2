@@ -1,7 +1,7 @@
 from database import tgusers
 
 from pyrogram import Client, filters
-from pyrogram.types import ChatMember
+from pyrogram.types import ChatMember, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import exceptions
 
 from utils import timehelper
@@ -55,8 +55,25 @@ async def afk_replier(c, m):
 
                 if status.get('afk_media', False):
                     
-                    if status['afk_media']['type'] == 'video': await m.reply_video(video = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
-                    elif status['afk_media']['type'] == 'photo': await m.reply_photo(photo = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
-                    else: await m.reply(reply_message, parse_mode = 'markdown')
+                    if status['afk_media']['type'] == 'video': await m.reply_video(video = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
+                    elif status['afk_media']['type'] == 'photo': await m.reply_photo(photo = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
+                    else: await m.reply(reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
                     
-                else: await m.reply(reply_message, parse_mode = 'markdown')
+                else:
+                    await m.reply(reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
+
+                
+                if status.get('mention_log', False) and status.get('bot_user', False):
+                    await c.send_message(
+                        chat_id = status['id'],
+                        text = "{mention} mentioned you in {title}\nAFK Duration: {elapsed}\n\n__{message}__".format(
+                            mention = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})",
+                            title = f"[{m.chat.title}](tg://resolve?domain={m.chat.username})" if m.chat.username else f"{m.chat.title}",
+                            elapsed = timehelper.readableTime(timehelper.getDuration(status['seen'])),
+                            message = m.text,
+                        ),
+                        parse_mode = 'markdown',
+                        protect_content = True,
+                        disable_web_page_preview = True,
+                        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(text = 'Go to Message', url = m.link)]]),
+                    )
