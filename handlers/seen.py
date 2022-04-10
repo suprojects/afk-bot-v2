@@ -1,8 +1,9 @@
 from pyrogram import Client, filters
 
 from database import tgusers
-from utils import timehelper
-from utils import userFinder
+from utils import timehelper, userFinder
+from utils.formatutils import autobool
+
 
 @Client.on_message(filters.private & filters.command(['seen']))
 async def seenViewer(client, m):
@@ -17,14 +18,14 @@ async def seenViewer(client, m):
             
             if mentioned.get('seen', False): 
                 
-                if mentioned.get('afk_status', False) and not mentioned.get('privacy_seen', False):
+                if mentioned.get('afk_status', False):
                     
                     reply_message = """
 {mention} is AFK{afk_since}
 Reason: {reason}
                         """.format(
                             mention=f"[{mentioned['first_name']}](tg://user?id={mentioned['id']})",
-                            afk_since=f"\nAFK since: {timehelper.readableTime(timehelper.getDuration(mentioned['seen']))}" if mentioned.get('privacy_time', False) else "",
+                            afk_since=f"\nAFK since: {timehelper.readableTime(timehelper.getDuration(mentioned['seen']))}" if autobool(not mentioned.get('privacy_time', False))['bool'] else "",
                             reason='`' + mentioned['reason'] + '`' if mentioned['reason'] else "Not specified",
                         )
 
