@@ -1,5 +1,4 @@
 from pyrogram import Client, filters
-
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from database import tgusers, pvtsettings
@@ -33,7 +32,8 @@ async def settings_pvt(c,m):
     else:
         await m.reply('Please start the bot first by using /start command')
         return
-    
+
+
     await m.reply(settings_text.format(
 
         mention=f'[{m.from_user.first_name}](tg://user?id={m.from_user.id})',
@@ -42,7 +42,7 @@ async def settings_pvt(c,m):
         mention_log= ("Enabled" if autobool(settings.get('mention_log', False))['bool'] else "Disabled"),
         lang=settings.get('lang', 'en'),
 
-), parse_mode='markdown', reply_markup=InlineKeyboardMarkup(buttons))
+    ), parse_mode='markdown', reply_markup=InlineKeyboardMarkup(buttons))
 
 
 @Client.on_callback_query(filters.regex('^privacy_time'))
@@ -60,7 +60,7 @@ async def timeprivacy(c,m):
         
         buttons = settingshelper.btn_maker(pvt_settings_buttons(settings))
         
-        await m.answer('{data} Time hider'.format(data="Enabled" if autobool(param)['bool'] else "Disabled"), show_alert=True)
+        await m.answer('{data} Time hider'.format(data="Enabled" if autobool(param)['bool'] else "Disabled"))
         
         await c.edit_message_text(
             chat_id = m.from_user.id,
@@ -91,7 +91,7 @@ async def seenprivacy(c,m):
         
         buttons = settingshelper.btn_maker(pvt_settings_buttons(settings))
         
-        await m.answer('{data} Seen hider'.format(data="Enabled" if autobool(param)['bool'] else "Disabled"), show_alert=True)
+        await m.answer('{data} Seen hider'.format(data="Enabled" if autobool(param)['bool'] else "Disabled"))
         
         await c.edit_message_text(
             chat_id = m.from_user.id,
@@ -122,7 +122,7 @@ async def mentionlogger(c,m):
         
         buttons = settingshelper.btn_maker(pvt_settings_buttons(settings))
         
-        await m.answer('{data} Mention Logger'.format(data="Enabled" if autobool(param)['bool'] else "Disabled"), show_alert=True)
+        await m.answer('{data} Mention Logger'.format(data="Enabled" if autobool(param)['bool'] else "Disabled"))
         
         await c.edit_message_text(
             chat_id = m.from_user.id,
