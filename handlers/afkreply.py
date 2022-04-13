@@ -1,4 +1,4 @@
-from database import tgusers
+from database import tgusers, groupsettings
 
 from pyrogram import Client, filters
 from pyrogram.types import ChatMember, InlineKeyboardButton, InlineKeyboardMarkup
@@ -13,7 +13,7 @@ import re
 
 @Client.on_message(filters.group & ~filters.regex('^/'))
 async def afk_replier(c, m):
-    
+
     if m.text:
         if not re.search('#afk', m.text):
             await noafk.noafk(c, m)
@@ -53,10 +53,10 @@ async def afk_replier(c, m):
                     )
                 )
 
-                if status.get('afk_media', False):
-                    
-                    if status['afk_media']['type'] == 'video': await m.reply_video(video = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
-                    elif status['afk_media']['type'] == 'photo': await m.reply_photo(photo = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
+                if status.get('afk_media', False) and groupsettings.find_by_id(m.chat.id).get('afk_media', True):
+   
+                    if status['afk_media']['type'] == 'video': await m.reply_video(video = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
+                    elif status['afk_media']['type'] == 'photo': await m.reply_photo(photo = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
                     else: await m.reply(reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
                     
                 else:
