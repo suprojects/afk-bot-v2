@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def getDuration(then):
     since = datetime.utcnow() - then
     elapsedTime = int(since.total_seconds())
@@ -15,6 +16,7 @@ def getDuration(then):
     time['s'] = elapsedTime
     
     return(time)
+
 
 def readableTime(time):
     
@@ -41,3 +43,18 @@ def readableTime(time):
     readable = readable.rstrip(', ')
     
     return readable
+
+
+def seconds_to_time(seconds):
+    
+    s = int(seconds)
+    
+    time = dict()
+
+    time['h'] = s // 3600
+    s %= 3600
+    time['m'] = s // 60
+    s %= 60
+    time['s'] = s
+    
+    return time
