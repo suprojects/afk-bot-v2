@@ -188,10 +188,10 @@ async def cleanup(c,m):
                 settings = groupsettings.setting(m.message.chat, 'cleanup_commands', autobool(param[1])['bool'])
                 buttons = settingshelper.btn_maker(cleanup_buttons(settings))
 
-                await m.answer("{} command deletion".format(('Enabled' if autobool(settings.get('cleanup_commands', False))['bool'] else "Disabled")))
-                
+                await m.answer("{} command deletion{}".format('Enabled' if autobool(settings.get('cleanup_commands', False))['bool'] else "Disabled", "\n\Promote the bot to admin to use this feature" if autobool(settings.get('cleanup_commands', False))['bool'] else ""), show_alert = autobool(settings.get('cleanup_commands', False))['bool'])
+
                 await m.edit_message_text(
-                    
+                        
                     text = cleanup_text.format(
                         chat = m.message.chat.title,
                         cleanup = timehelper.readableTime(timehelper.seconds_to_time(settings['cleanup'])) if settings.get('cleanup', 'false') != 'false' else "Disabled",
