@@ -296,8 +296,6 @@ async def get_admins(c, chatid, cache_time = 30):
         for each_admin in fetched_admins:
             new_adminlist.append(each_admin.user.id)
 
-        print('fetched')
-        
         adminlist[chatid] = {"admins": new_adminlist, "time": datetime.utcnow()}
 
 
