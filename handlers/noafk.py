@@ -1,10 +1,10 @@
 from pyrogram import Client, filters
 from database import tgusers
-from utils import timehelper, grouputils
+from utils import timehelper
 from utils.formatutils import autobool
 
 
-@Client.on_message(filters.command(['noafk']) & filters.private)
+@Client.on_message(filters.command(['noafk']) & filters.private & ~filters.edited)
 async def noafk(c, m):
 
     status = tgusers.online_user(m.from_user)
@@ -19,5 +19,3 @@ async def noafk(c, m):
                     afk_since=f"\nAFK since: {elapsed}" if not autobool(status.get('privacy_time', False))['bool'] else "",
                     reason='`' + status['reason'] + '`' if status['reason'] else "Not specified",
                 ), parse_mode = 'markdown')
-        
-    #await grouputils.cleanup(m = msg)

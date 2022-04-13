@@ -5,7 +5,7 @@ from utils import timehelper, userFinder
 from utils.formatutils import autobool
 
 
-@Client.on_message(filters.private & filters.command(['seen']))
+@Client.on_message(filters.private & filters.command(['seen']) & ~filters.edited)
 async def seenViewer(client, m):
     
     param = m.command[1:]
