@@ -17,6 +17,9 @@ async def afk_replier(c, m):
     if m.text:
         if not re.search('#afk', m.text):
             await noafk.noafk(c, m)
+            
+    else:
+        await noafk.noafk(c, m)
 
 
     if m.reply_to_message:
@@ -55,7 +58,7 @@ async def afk_replier(c, m):
 
                 group_settings = groupsettings.find_by_id(m.chat.id)
 
-                if status.get('afk_media', False) and group_settings.get('afk_media', True):
+                if status.get('afk_media', False) and group_settings and group_settings.get('afk_media', True):
    
    
                     if status['afk_media']['type'] == 'video':
@@ -89,6 +92,6 @@ async def afk_replier(c, m):
                     )
 
 
-                if group_settings.get('cleanup', 'false') != 'false':
+                if group_settings and group_settings.get('cleanup', 'false') != 'false':
                     
                     autoDelete.newDeleteJob(chat_id = m.chat.id, message_id = x.message_id, delete_delay = group_settings['cleanup'])
