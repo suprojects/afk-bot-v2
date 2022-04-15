@@ -8,8 +8,7 @@ configpresent = bool(os.path.exists("config.ini"))
 if not configpresent:
     
     sampleconfig = open("sampleconfig.ini", "r").read()
-    sampleconfig.close()
-    
+
     configtext = sampleconfig.format(
         
         api_id = os.environ.get('api_id'),
