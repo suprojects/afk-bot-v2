@@ -1,10 +1,6 @@
-from pyrogram import Client
+from client import client 
+from utils.autoDelete import start_scheduler
 
-import configparser
-config = configparser.ConfigParser()
-config.read('config.ini')
-bot = config['tokens']
 
-print('initiated')
-
-Client("bot", bot_token = str(bot['api_token'])).run()
+start_scheduler()
+client.run()
