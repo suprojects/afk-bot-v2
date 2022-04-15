@@ -32,6 +32,9 @@ def afked(from_user, reason = None, media = None):
         {"id": from_user.id},
         {
             "$set": {
+                "username": from_user.username,
+                "first_name": from_user.first_name,
+                "last_name": from_user.last_name,
                 "afk_status": True,
                 "reason": reason,
                 "afk_media": media,
@@ -60,7 +63,7 @@ def new_botuser(from_user):
 def find_by_username(username):
     user = tgusers.find_one({"username": re.compile(username, re.IGNORECASE)})
     
-    if user == username:
+    if user and user.get('username') == username:
         return user
     
     else:
@@ -70,7 +73,7 @@ def find_by_username(username):
 def find_by_id(userid):
     user = tgusers.find_one({"id": userid})
     
-    if user == userid:
+    if user.get('id') == userid:
         return user
 
     else:
