@@ -34,7 +34,7 @@ async def afk_replier(c, m):
     else: return
     
 
-    if status.get('afk_status', False):
+    if status and status.get('afk_status', False):
          
         try:
             member = await c.get_chat_member(m.chat.id, status['id'])
