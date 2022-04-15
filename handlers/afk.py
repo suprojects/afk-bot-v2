@@ -41,6 +41,6 @@ async def afk(c, m):
         
         group_settings = groupsettings.find_by_id(m.chat.id)
 
-        if group_settings.get('cleanup', 'false') != 'false':
+        if group_settings and group_settings.get('cleanup', 'false') != 'false':
             
             autoDelete.newDeleteJob(chat_id = m.chat.id, message_id = x.message_id, delete_delay = group_settings['cleanup'], delete_command=group_settings.get('cleanup_commands', False), command_id=x.reply_to_message_id)
