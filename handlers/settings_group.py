@@ -119,7 +119,7 @@ async def cleanup(c,m):
         
             if param[1] == "false":
                 
-                settings = groupsettings.setting(m.message.chat, 'cleanup', param[1])
+                settings = groupsettings.setting(m.message.chat.id, 'cleanup', param[1])
                 buttons = settingshelper.btn_maker(cleanup_buttons(settings))
                 
                 
@@ -141,7 +141,7 @@ async def cleanup(c,m):
 
             else:
             
-                settings = groupsettings.setting(m.message.chat, 'cleanup', param[1])
+                settings = groupsettings.setting(m.message.chat.id, 'cleanup', param[1])
                 buttons = settingshelper.btn_maker(cleanup_buttons(settings))
 
                 cleanup_time_formatted = (timehelper.readableTime(timehelper.seconds_to_time(settings['cleanup'])) if settings.get('cleanup', 'false') else "Disabled")
@@ -185,7 +185,7 @@ async def cleanup(c,m):
         
             if m.from_user.id in await get_admins(c, m.message.chat.id):
         
-                settings = groupsettings.setting(m.message.chat, 'cleanup_commands', autobool(param[1])['bool'])
+                settings = groupsettings.setting(m.message.chat.id, 'cleanup_commands', autobool(param[1])['bool'])
                 buttons = settingshelper.btn_maker(cleanup_buttons(settings))
 
                 await m.answer("{} command deletion".format(('Enabled' if autobool(settings.get('cleanup_commands', False))['bool'] else "Disabled")))
@@ -253,7 +253,7 @@ async def afk_media(c,m):
         
         if m.from_user.id in await get_admins(c, m.message.chat.id):
         
-            settings = groupsettings.setting(m.message.chat, 'afk_media', autobool(param)['bool'])
+            settings = groupsettings.setting(m.message.chat.id, 'afk_media', autobool(param)['bool'])
             buttons = settingshelper.btn_maker(group_settings_buttons(settings))
             
             

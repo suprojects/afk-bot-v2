@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import ChatMember, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import exceptions
 
-from utils import timehelper
+from utils import timehelper, autoDelete
 from utils.formatutils import autobool
 
 from handlers import noafk
@@ -53,17 +53,27 @@ async def afk_replier(c, m):
                     )
                 )
 
-                if status.get('afk_media', False) and groupsettings.find_by_id(m.chat.id).get('afk_media', True):
+                group_settings = groupsettings.find_by_id(m.chat.id)
+
+                if status.get('afk_media', False) and group_settings.get('afk_media', True):
    
-                    if status['afk_media']['type'] == 'video': await m.reply_video(video = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
-                    elif status['afk_media']['type'] == 'photo': await m.reply_photo(photo = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
-                    else: await m.reply(reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
-                    
+   
+                    if status['afk_media']['type'] == 'video':
+                        x = await m.reply_video(video = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
+                        
+                    elif status['afk_media']['type'] == 'photo':
+                        x = await m.reply_photo(photo = status['afk_media']['id'], caption = reply_message, parse_mode = 'markdown')
+                        
+                    else:
+                        x = await m.reply(reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
+
+    
                 else:
-                    await m.reply(reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
+                    x = await m.reply(reply_message, parse_mode = 'markdown', disable_web_page_preview = True)
 
                 
-                if status.get('mention_log', False) and status.get('bot_user', False):
+                if status.get('mention_log', False) and status.get('bot_user', False) and not m.from_user.is_self:
+                    
                     await c.send_message(
                         chat_id = status['id'],
                         text = "{mention} mentioned you in {title}\nAFK Duration: {elapsed}\n\n__{message}__".format(
@@ -77,3 +87,8 @@ async def afk_replier(c, m):
                         disable_web_page_preview = True,
                         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton(text = 'Go to Message', url = m.link)]]),
                     )
+
+
+                if group_settings.get('cleanup', 'false') != 'false':
+                    
+                    autoDelete.newDeleteJob(chat_id = m.chat.id, message_id = x.message_id, delete_delay = group_settings['cleanup'])
