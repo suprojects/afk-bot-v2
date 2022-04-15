@@ -58,11 +58,23 @@ def new_botuser(from_user):
 
 
 def find_by_username(username):
-    return tgusers.find_one({"username": re.compile(username, re.IGNORECASE)})
+    user = tgusers.find_one({"username": re.compile(username, re.IGNORECASE)})
+    
+    if user == username:
+        return user
+    
+    else:
+        return None
 
 
 def find_by_id(userid):
-    return tgusers.find_one({"id": userid})
+    user = tgusers.find_one({"id": userid})
+    
+    if user == userid:
+        return user
+
+    else:
+        return None
 
 
 def bot_users():
