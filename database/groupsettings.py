@@ -3,10 +3,10 @@ from database import db
 
 bot_chats = db["bot_chats"]
 
-def setting(chat, setting, data):
+def setting(chatid, setting, data):
     
     param = bot_chats.find_one_and_update(
-            {"id": chat.id},
+            {"id": chatid},
             {
                 "$set": {
                     setting: data,
