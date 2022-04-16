@@ -63,7 +63,7 @@ def new_botuser(from_user):
 def find_by_username(username):
     user = tgusers.find_one({"username": re.compile(username, re.IGNORECASE)})
     
-    if user and user.get('username') == username:
+    if user and user.get('username').lower() == username.lower():
         return user
     
     else:
