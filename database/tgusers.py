@@ -73,7 +73,7 @@ def find_by_username(username):
 def find_by_id(userid):
     user = tgusers.find_one({"id": userid})
     
-    if user.get('id') == userid:
+    if user and user.get('id') == userid:
         return user
 
     else:
