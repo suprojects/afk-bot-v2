@@ -22,7 +22,7 @@ async def afk_replier(c, m):
         await noafk.noafk(c, m)
 
 
-    if m.reply_to_message:
+    if m.reply_to_message and m.reply_to_message.from_user:
         status = tgusers.find_by_id(m.reply_to_message.from_user.id)   
 
     elif m.entities:
