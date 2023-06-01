@@ -8,5 +8,5 @@ from database import tgusers
 async def start_pvt(_, message):
     tgusers.new_botuser(message.from_user)
     await message.reply(
-        "Hey there!\n\nI am a simple AFK Bot. I tell users that you are away if you are, so they dont need to be hanging for your reply."
+        "Hey there!\n\nI am a simple AFK Bot. I tell users that you are away if you are, so they dont need to be hanging for your reply.\n\nSend /help for usage instructions"
     )

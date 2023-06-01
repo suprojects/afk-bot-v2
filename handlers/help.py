@@ -18,7 +18,8 @@ async def commands_help(_, m):
     await m.reply(
         """
 /afk `[reason]` - Set your AFK status
-- You can also add a custom AFK media by adding a caption
+- You can also add a custom AFK photo/video/gif by attaching a media and adding the command in caption
+- You can also reply to a media with the AFK Command
 /afk `[reason]`
 
 /noafk - Remove your AFK status (private only)

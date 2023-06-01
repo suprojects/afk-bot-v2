@@ -9,9 +9,7 @@ from database import groupsettings
 deleteList = []
 
 
-def newDeleteJob(
-    chat_id, message_id, delete_command=False, command_id=None, delete_delay=300
-):
+def newDeleteJob(chat_id, message_id, delete_command=False, command_id=None, delete_delay=300):
 
     deleteList.append(
         {
