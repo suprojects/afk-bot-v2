@@ -24,22 +24,16 @@ async def afk_replier(c, m):
         status = tgusers.find_by_id(m.reply_to_message.from_user.id)
 
     elif m.entities:
-        if (
-            len(m.entities) != 1
-            or m.entities[0].type != enums.MessageEntityType.TEXT_MENTION
-            or m.entities[0].type != enums.MessageEntityType.MENTION
-        ):
-            return
+        if (len(m.entities) == 1 and m.entities[0].type == enums.MessageEntityType.MENTION):
+            entities = m.entities[0]
+            status = tgusers.find_by_username(str(m.text)[entities.offset + 1 : entities.length + entities.offset])
+        else: return
 
-        entities = m.entities[0]
-        status = tgusers.find_by_username(
-            str(m.text)[entities.offset + 1 : entities.length + entities.offset]
-        )
+    else: return
 
-    else:
-        return
 
     if status and status.get("afk_status", False):
+
         try:
             member = await c.get_chat_member(m.chat.id, status["id"])
 
