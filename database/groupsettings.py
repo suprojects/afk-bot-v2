@@ -2,8 +2,9 @@ from pymongo import ReturnDocument
 
 from database import db
 
-bot_chats = db["bot_chats"]
+from utils.chattypeHelper import chatTypeConv
 
+bot_chats = db["bot_chats"]
 
 def setting(chatid, setting, data):
 
@@ -29,7 +30,7 @@ def new_chat(chat):
                 "title": chat.title,
                 "username": chat.username,
                 "dc_id": chat.dc_id,
-                "type": chat.type,
+                "type": chatTypeConv(chat.type),
             }
         },
         upsert=True,

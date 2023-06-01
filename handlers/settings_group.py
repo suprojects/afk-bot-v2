@@ -375,10 +375,9 @@ async def get_admins(c, chatid, cache_time=30):
     if not adminprops or adminprops.get("time") + timedelta(
         minutes=cache_time
     ) < datetime.now(timezone.utc):
-
-        fetched_admins = await c.get_chat_members(
-            chat_id=chatid, filter=enums.ChatMembersFilter.ADMINISTRATORS
-        )
+        fetched_admins= []
+        async for usr in c.get_chat_members(chatid):
+            fetched_admins.append(usr)
 
         new_adminlist = [each_admin.user.id for each_admin in fetched_admins]
         adminlist[chatid] = {
