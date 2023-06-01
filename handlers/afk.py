@@ -7,22 +7,17 @@ from utils import autoDelete
 
 @Client.on_message(filters.command("afk"))
 async def afk(c, m):
-
     afk_media = None
 
     reason = " ".join(m.command[1:]) if m.command[1:] else None
     if m.photo:
-
         afk_media = {"id": m.photo.file_id, "type": "photo"}
 
     if m.video:
-
         if m.video.duration <= 30:
-
             afk_media = {"id": m.video.file_id, "type": "video"}
 
         else:
-
             await m.reply("Duration of the video must be lesser than 30 seconds")
             return
 
@@ -37,15 +32,13 @@ async def afk(c, m):
     )
 
     if m.chat.type != "private":
-
         group_settings = groupsettings.find_by_id(m.chat.id)
 
         if group_settings and group_settings.get("cleanup", "false") != "false":
-
             autoDelete.newDeleteJob(
                 chat_id=m.chat.id,
-                message_id=x.message_id,
+                message_id=x.id,
                 delete_delay=group_settings["cleanup"],
                 delete_command=group_settings.get("cleanup_commands", False),
-                command_id=x.reply_to_message_id,
+                command_id=x.reply_to_id,
             )

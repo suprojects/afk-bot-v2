@@ -32,6 +32,6 @@ async def noafk(_, m):
             if group_settings and group_settings.get("cleanup", "false") != "false":
                 autoDelete.newDeleteJob(
                     chat_id=m.chat.id,
-                    message_id=x.id,
+                    id=x.id,
                     delete_delay=group_settings["cleanup"],
                 )

@@ -13,7 +13,6 @@ from utils.formatutils import autobool
 
 @Client.on_message(filters.group & ~filters.regex("^/"))
 async def afk_replier(c, m):
-
     if m.text:
         if not re.search("#afk", m.text):
             await noafk.noafk(c, m)
@@ -25,7 +24,6 @@ async def afk_replier(c, m):
         status = tgusers.find_by_id(m.reply_to_message.from_user.id)
 
     elif m.entities:
-
         if (
             len(m.entities) != 1
             or m.entities[0].type != enums.MessageEntityType.TEXT_MENTION
@@ -41,7 +39,6 @@ async def afk_replier(c, m):
         return
 
     if status and status.get("afk_status", False):
-
         try:
             member = await c.get_chat_member(m.chat.id, status["id"])
 
@@ -49,13 +46,11 @@ async def afk_replier(c, m):
             return
 
         else:
-
             if member.status in [
                 enums.ChatMemberStatus.OWNER,
                 enums.ChatMemberStatus.ADMINISTRATOR,
                 enums.ChatMemberStatus.MEMBER,
             ]:
-
                 reply_message = "{mention} is AFK{afk_since}\nReason: {reason}".format(
                     mention=f"[{status['first_name']}](tg://user?id={status['id']})",
                     afk_since=""
@@ -73,7 +68,6 @@ async def afk_replier(c, m):
                     and group_settings
                     and group_settings.get("afk_media", True)
                 ):
-
                     if status["afk_media"]["type"] == "video":
                         x = await m.reply_video(
                             video=status["afk_media"]["id"],
@@ -107,7 +101,6 @@ async def afk_replier(c, m):
                     and status.get("bot_user", False)
                     and not m.from_user.is_self
                 ):
-
                     await c.send_message(
                         chat_id=status["id"],
                         text="{mention} mentioned you in {title}\nAFK Duration: {elapsed}\n\n__{message}__".format(
@@ -129,9 +122,8 @@ async def afk_replier(c, m):
                     )
 
                 if group_settings and group_settings.get("cleanup", "false") != "false":
-
                     autoDelete.newDeleteJob(
                         chat_id=m.chat.id,
-                        message_id=x.id,
+                        id=x.id,
                         delete_delay=group_settings["cleanup"],
                     )
