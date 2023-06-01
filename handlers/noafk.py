@@ -6,7 +6,7 @@ from utils import autoDelete, timehelper
 from utils.formatutils import autobool
 
 
-@Client.on_message(filters.command(["noafk"]) & filters.private & ~filters.edited)
+@Client.on_message(filters.command(["noafk"]) & filters.private)
 async def noafk(_, m):
     status = tgusers.online_user(m.from_user)
 
