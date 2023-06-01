@@ -124,6 +124,6 @@ async def afk_replier(c, m):
                 if group_settings and group_settings.get("cleanup", "false") != "false":
                     autoDelete.newDeleteJob(
                         chat_id=m.chat.id,
-                        id=x.id,
+                        message_id=x.id,
                         delete_delay=group_settings["cleanup"],
                     )
