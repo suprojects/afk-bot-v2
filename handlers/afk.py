@@ -40,5 +40,5 @@ async def afk(c, m):
                 message_id=x.id,
                 delete_delay=group_settings["cleanup"],
                 delete_command=group_settings.get("cleanup_commands", False),
-                command_id=x.reply_to_id,
+                command_id=x.reply_to_message_id,
             )

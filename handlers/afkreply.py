@@ -27,6 +27,7 @@ async def afk_replier(c, m):
         if (
             len(m.entities) != 1
             or m.entities[0].type != enums.MessageEntityType.TEXT_MENTION
+            or m.entities[0].type != enums.MessageEntityType.MENTION
         ):
             return
 

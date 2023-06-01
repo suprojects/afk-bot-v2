@@ -78,9 +78,7 @@ async def timeprivacy(c, m):
             )
         )
 
-        await c.edit_message_text(
-            chat_id=m.from_user.id,
-            id=m.message.id,
+        await m.message.edit(
             text=settings_text.format(
                 mention=f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})",
                 privacy_time=(
@@ -127,9 +125,7 @@ async def seenprivacy(c, m):
             )
         )
 
-        await c.edit_message_text(
-            chat_id=m.from_user.id,
-            id=m.message.id,
+        await m.message.edit(
             text=settings_text.format(
                 mention=f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})",
                 privacy_time=(
@@ -174,9 +170,7 @@ async def mentionlogger(c, m):
             )
         )
 
-        await c.edit_message_text(
-            chat_id=m.from_user.id,
-            id=m.message.id,
+        await m.message.edit(
             text=settings_text.format(
                 mention=f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})",
                 privacy_time=(
