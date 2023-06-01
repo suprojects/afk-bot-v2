@@ -8,7 +8,7 @@ bot_chats = db["bot_chats"]
 
 def setting(chatid, setting, data):
 
-    param = bot_chats.find_one_and_update(
+    return bot_chats.find_one_and_update(
         {"id": chatid},
         {
             "$set": {
@@ -18,7 +18,6 @@ def setting(chatid, setting, data):
         upsert=True,
         return_document=ReturnDocument.AFTER,
     )
-    return param
 
 
 def new_chat(chat):

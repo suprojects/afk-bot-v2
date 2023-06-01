@@ -6,7 +6,7 @@ tgusers = db["tgusers"]
 
 
 def setting(from_user, setting, data):
-    param = tgusers.find_one_and_update(
+    return tgusers.find_one_and_update(
         {"id": from_user.id},
         {
             "$set": {
@@ -16,4 +16,3 @@ def setting(from_user, setting, data):
         upsert=True,
         return_document=ReturnDocument.AFTER,
     )
-    return param
