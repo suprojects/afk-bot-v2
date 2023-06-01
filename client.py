@@ -31,4 +31,4 @@ config.read('config.ini')
 bot = config['tokens']
 
 
-client = Client("bot", bot_token = str(bot['api_token']))
+client = Client("bot", api_id=str(bot['api_id']), api_hash=str(bot['api_hash']), bot_token = str(bot['api_token']), plugins=dict(root=str(bot['root'])))
