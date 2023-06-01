@@ -1,6 +1,5 @@
 import re
-from datetime import datetime
-
+from datetime import datetime, timezone
 from pymongo import ReturnDocument
 
 from database import db
@@ -9,14 +8,14 @@ tgusers = db["tgusers"]
 
 
 def online_user(from_user):
-    param = tgusers.find_one_and_update(
+    return tgusers.find_one_and_update(
         {"id": from_user.id},
         {
             "$set": {
                 "username": from_user.username,
                 "first_name": from_user.first_name,
                 "last_name": from_user.last_name,
-                "seen": datetime.utcnow(),
+                "seen": datetime.now(timezone.utc),
                 "afk_status": False,
                 "afk_media": None,
             }
@@ -24,8 +23,6 @@ def online_user(from_user):
         upsert=True,
         return_document=ReturnDocument.BEFORE,
     )
-
-    return param
 
 
 def afked(from_user, reason=None, media=None):
@@ -39,7 +36,7 @@ def afked(from_user, reason=None, media=None):
                 "afk_status": True,
                 "reason": reason,
                 "afk_media": media,
-                "seen": datetime.utcnow(),
+                "seen": datetime.now(timezone.utc),
             }
         },
         upsert=True,
@@ -74,11 +71,7 @@ def find_by_username(username):
 def find_by_id(userid):
     user = tgusers.find_one({"id": userid})
 
-    if user and user.get("id") == userid:
-        return user
-
-    else:
-        return None
+    return user if user and user.get("id") == userid else None
 
 
 def bot_users():
