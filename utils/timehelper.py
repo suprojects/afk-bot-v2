@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 
 def getDuration(then):
-    since = datetime.now(timezone.utc) - then
+    since = datetime.now(timezone.utc) - then.replace(tzinfo=timezone.utc)
     elapsedTime = int(since.total_seconds())
 
     time = {"d": elapsedTime // 86400}
