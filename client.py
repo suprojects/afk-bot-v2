@@ -12,6 +12,7 @@ if not configpresent:
         api_id=os.environ.get("api_id"),
         api_hash=os.environ.get("api_hash"),
         api_token=os.environ.get("api_token"),
+        root=os.environ.get("root"),
         uri=os.environ.get("uri"),
         db_name=os.environ.get("db_name"),
         sudo_users=os.environ.get("sudo_users"),
