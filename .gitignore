@@ -2,6 +2,12 @@
 config.ini
 bot.session
 bot.session-journal
+handlers/aaaatest.py
+.vscode/
+Include/
+Lib/
+Scripts/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -155,4 +161,3 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-handlers/aaaatest.py
