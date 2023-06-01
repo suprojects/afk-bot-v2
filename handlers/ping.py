@@ -1,13 +1,16 @@
-from pyrogram import Client, filters
+import configparser
 from datetime import datetime
 
-import configparser
-config = configparser.ConfigParser()
-config.read('config.ini')
-sudo = config['sudo']
+from pyrogram import filters
+from pyrogram.client import Client
 
-@Client.on_message(filters.user(sudo['users'].split(',')) & filters.command('ping'))
-async def ping(c, m):
+config = configparser.ConfigParser()
+config.read("config.ini")
+sudo = config["sudo"]
+
+
+@Client.on_message(filters.user(sudo["users"].split(",")) & filters.command("ping"))
+async def ping(_, m):
     start_time = datetime.now()
     msg = await m.reply_text("Pinging...")
     end_time = datetime.now()

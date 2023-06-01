@@ -1,33 +1,34 @@
-from pymongo import ReturnDocument
-from datetime import datetime
-from database import db
 import re
+from datetime import datetime
 
+from pymongo import ReturnDocument
+
+from database import db
 
 tgusers = db["tgusers"]
 
 
 def online_user(from_user):
     param = tgusers.find_one_and_update(
-            {"id": from_user.id},
-            {
-                "$set": {
-                    "username": from_user.username,
-                    "first_name": from_user.first_name,
-                    "last_name": from_user.last_name,
-                    "seen": datetime.utcnow(),
-                    "afk_status": False,
-                    "afk_media": None,
-                }
-            },
-            upsert=True,
-            return_document=ReturnDocument.BEFORE
-        )
+        {"id": from_user.id},
+        {
+            "$set": {
+                "username": from_user.username,
+                "first_name": from_user.first_name,
+                "last_name": from_user.last_name,
+                "seen": datetime.utcnow(),
+                "afk_status": False,
+                "afk_media": None,
+            }
+        },
+        upsert=True,
+        return_document=ReturnDocument.BEFORE,
+    )
 
     return param
 
 
-def afked(from_user, reason = None, media = None):
+def afked(from_user, reason=None, media=None):
     tgusers.update_one(
         {"id": from_user.id},
         {
@@ -62,18 +63,18 @@ def new_botuser(from_user):
 
 def find_by_username(username):
     user = tgusers.find_one({"username": re.compile(username, re.IGNORECASE)})
-    
-    if user and user.get('username').lower() == username.lower():
+
+    if user and user.get("username").lower() == username.lower():
         return user
-    
+
     else:
         return None
 
 
 def find_by_id(userid):
     user = tgusers.find_one({"id": userid})
-    
-    if user and user.get('id') == userid:
+
+    if user and user.get("id") == userid:
         return user
 
     else:
@@ -81,4 +82,6 @@ def find_by_id(userid):
 
 
 def bot_users():
-    return list(tgusers.find({}, {'id': 1, "username": 1, "firstname": 1, "lastname": 1}))
+    return list(
+        tgusers.find({}, {"id": 1, "username": 1, "firstname": 1, "lastname": 1})
+    )

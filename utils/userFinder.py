@@ -1,18 +1,18 @@
-from database import tgusers
 import re
 
+from database import tgusers
+
+
 def find(attr):
-    
-    if attr == '@':
-        userinfo = None
-        
+
+    if attr == "@":
+        return None
+
     elif attr.isdecimal():
-        userinfo = tgusers.find_by_id(int(attr))
+        return tgusers.find_by_id(int(attr))
 
     elif re.search("^@[a-zA-Z0-9_]*$", attr):
-        userinfo = tgusers.find_by_username(attr[1:])
+        return tgusers.find_by_username(attr[1:])
 
     else:
-        userinfo = None
-
-    return userinfo
+        return None
