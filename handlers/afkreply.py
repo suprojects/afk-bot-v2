@@ -97,7 +97,7 @@ async def afk_replier(c, m):
                     await c.send_message(
                         chat_id=status["id"],
                         text="{mention} mentioned you in {title}\nAFK Duration: {elapsed}\n\n__{message}__".format(
-                            mention=f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})" if m.from_user else "An admin",
+                            mention=f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})" if m.from_user else ("An admin" if (m.sender_chat.id == m.chat.id) else m.sender_chat.title),
                             title=f"[{m.chat.title}](tg://resolve?domain={m.chat.username})" if m.chat.username else f"{m.chat.title}",
                             elapsed=timehelper.readableTime(timehelper.getDuration(status["seen"])),
                             message=m.text,
