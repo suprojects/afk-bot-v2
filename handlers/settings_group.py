@@ -376,7 +376,7 @@ async def get_admins(c, chatid, cache_time=30):
         minutes=cache_time
     ) < datetime.now(timezone.utc):
         fetched_admins= []
-        async for usr in c.get_chat_members(chatid):
+        async for usr in c.get_chat_members(chatid, filter=enums.ChatMembersFilter.ADMINISTRATORS):
             fetched_admins.append(usr)
 
         new_adminlist = [each_admin.user.id for each_admin in fetched_admins]
