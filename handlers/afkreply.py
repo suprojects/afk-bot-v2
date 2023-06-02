@@ -14,10 +14,6 @@ from utils.formatutils import autobool
 @Client.on_message(filters.group & ~filters.regex("^/"))
 async def afk_replier(c, m):
 
-#fix anon admins sending messages tha trigger the bot
-    if m.sender_chat:
-        return
-
     if m.text:
         if not re.search("#afk", m.text):
             await noafk.noafk(c, m)
@@ -96,21 +92,14 @@ async def afk_replier(c, m):
                         disable_web_page_preview=True,
                     )
 
-                if (
-                    status.get("mention_log", False)
-                    and status.get("bot_user", False)
-                    and not m.from_user.is_self
-                ):
+                if (status.get("mention_log", False) and status.get("bot_user", False) and not (m.from_user.is_self if m.from_user else False)):
+
                     await c.send_message(
                         chat_id=status["id"],
                         text="{mention} mentioned you in {title}\nAFK Duration: {elapsed}\n\n__{message}__".format(
-                            mention=f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})",
-                            title=f"[{m.chat.title}](tg://resolve?domain={m.chat.username})"
-                            if m.chat.username
-                            else f"{m.chat.title}",
-                            elapsed=timehelper.readableTime(
-                                timehelper.getDuration(status["seen"])
-                            ),
+                            mention=f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})" if m.from_user else "An admin",
+                            title=f"[{m.chat.title}](tg://resolve?domain={m.chat.username})" if m.chat.username else f"{m.chat.title}",
+                            elapsed=timehelper.readableTime(timehelper.getDuration(status["seen"])),
                             message=m.text,
                         ),
                         parse_mode=enums.ParseMode.MARKDOWN,
