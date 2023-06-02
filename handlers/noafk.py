@@ -8,6 +8,11 @@ from utils.formatutils import autobool
 
 @Client.on_message(filters.command(["noafk"]) & filters.private)
 async def noafk(_, m):
+
+#fix anon admins sending messages tha trigger the bot
+    if m.sender_chat:
+        return
+
     status = tgusers.online_user(m.from_user)
 
     if status and status.get("afk_status", False):

@@ -7,6 +7,11 @@ from utils import autoDelete
 
 @Client.on_message(filters.command("afk"))
 async def afk(c, m):
+
+#fix anon admins sending messages tha trigger the bot
+    if m.sender_chat:
+        return
+
     afk_media = None
 
     reason = " ".join(m.command[1:]) if m.command[1:] else None

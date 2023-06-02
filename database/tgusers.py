@@ -8,6 +8,10 @@ tgusers = db["tgusers"]
 
 
 def online_user(from_user):
+
+    if not from_user:
+        return False
+    
     return tgusers.find_one_and_update(
         {"id": from_user.id},
         {
@@ -26,6 +30,8 @@ def online_user(from_user):
 
 
 def afked(from_user, reason=None, media=None):
+    if not from_user:
+        return False
     tgusers.update_one(
         {"id": from_user.id},
         {

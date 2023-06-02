@@ -13,6 +13,11 @@ from utils.formatutils import autobool
 
 @Client.on_message(filters.group & ~filters.regex("^/"))
 async def afk_replier(c, m):
+
+#fix anon admins sending messages tha trigger the bot
+    if m.sender_chat:
+        return
+
     if m.text:
         if not re.search("#afk", m.text):
             await noafk.noafk(c, m)
