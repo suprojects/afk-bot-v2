@@ -42,7 +42,7 @@ async def group_start(_, m):
 @Client.on_message(filters.command("settings") & filters.group)
 async def settings_group(c, m):
 
-    if m.from_user.id in await get_admins(c, m.chat.id, cache_time=2):
+    if (m.from_user and (m.from_user.id in await get_admins(c, m.chat.id, cache_time=2))) or (m.sender_chat.id == m.chat.id):
 
         settings = groupsettings.find_by_id(m.chat.id)
 
@@ -129,7 +129,7 @@ async def cleanup(c, m):
 
         else:
 
-            await m.answer("You are not an admin of this group", show_alert=True)
+            await m.answer("You are not an admin of this group\n\n(PS: If you are an anonymous admin, promote the bot to access settings)", show_alert=True)
 
     elif param[0] == "time":
 
@@ -218,7 +218,7 @@ async def cleanup(c, m):
 
         else:
 
-            await m.answer("You are not an admin of this group", show_alert=True)
+            await m.answer("You are not an admin of this group\n\n(PS: If you are an anonymous admin, promote the bot to access settings)", show_alert=True)
 
     elif param[0] == "commands":
 
@@ -271,7 +271,7 @@ async def cleanup(c, m):
 
             else:
 
-                await m.answer("You are not an admin of this group", show_alert=True)
+                await m.answer("You are not an admin of this group\n\n(PS: If you are an anonymous admin, promote the bot to access settings)", show_alert=True)
 
     elif param[0] == "back":
 
@@ -306,7 +306,7 @@ async def cleanup(c, m):
 
         else:
 
-            await m.answer("You are not an admin of this group", show_alert=True)
+            await m.answer("You are not an admin of this group\n\n(PS: If you are an anonymous admin, promote the bot to access settings)", show_alert=True)
 
 
 @Client.on_callback_query(filters.regex("^afk_media"))
@@ -362,7 +362,7 @@ async def afk_media(c, m):
 
         else:
 
-            await m.answer("You are not an admin of this group", show_alert=True)
+            await m.answer("You are not an admin of this group\n\n(PS: If you are an anonymous admin, promote the bot to access settings)", show_alert=True)
 
 
 adminlist = {}
@@ -372,9 +372,7 @@ async def get_admins(c, chatid, cache_time=30):
 
     adminprops = adminlist.get(chatid, False)
 
-    if not adminprops or adminprops.get("time") + timedelta(
-        minutes=cache_time
-    ) < datetime.now(timezone.utc):
+    if not adminprops or adminprops.get("time") + timedelta(minutes=cache_time) < datetime.now(timezone.utc):
         fetched_admins= []
         async for usr in c.get_chat_members(chatid, filter=enums.ChatMembersFilter.ADMINISTRATORS):
             fetched_admins.append(usr)
